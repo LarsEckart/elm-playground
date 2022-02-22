@@ -1,0 +1,27 @@
+{
+  "name": "elm-playground",
+  "version": "1.0.0",
+  "description": "Learning elm",
+  "scripts": {
+    "clean": "rm -r dist/*",
+    "format": "elm-format --yes src/",
+    "copy-static": "mkdir -p dist/ && cp public/* dist/",
+    "build-elm": "elm make src/Main.elm --optimize --output=dist/main.js",
+    "build": "npm run copy-static && npm run build-elm",
+    "start": "elm-live src/Main.elm --dir dist -- --output dist/main.js"
+  },
+  "devDependencies": {
+    "elm": "^0.19.1-5",
+    "elm-live": "^4.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/systemsthinking-dev/poker-in-elm.git"
+  },
+  "author": "jessitron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/systemsthinking-dev/poker-in-elm/issues"
+  },
+  "homepage": "https://github.com/systemsthinking-dev/poker-in-elm#readme"
+}
