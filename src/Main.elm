@@ -7,8 +7,9 @@ module Main exposing (..)
 --
 
 import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
+import Html exposing (Html, button, div, text, input)
+import Html.Attributes exposing (..)
+import Html.Events exposing (onClick, onInput)
 
 
 
@@ -24,14 +25,16 @@ main =
 
 
 type alias Model =
-    {
-        counter: Int
+    { counter : Int
+    , phoneNumber : String
     }
 
 
 init : Model
 init =
-    {counter = 0}
+    { counter = 0
+    , phoneNumber = ""
+    }
 
 
 
@@ -43,20 +46,26 @@ type Msg
     | Decrement
     | Reset
     | PlusTen
+    | NewNumber String
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         Increment ->
-            {model | counter = model.counter + 1}
+            { model | counter = model.counter + 1 }
 
         Decrement ->
-            {model | counter = model.counter - 1}
+            { model | counter = model.counter - 1 }
+
         Reset ->
-            {model | counter = 0}
+            { model | counter = 0 }
+
         PlusTen ->
-            {model | counter = model.counter + 10}
+            { model | counter = model.counter + 10 }
+        NewNumber pn ->
+            {model | phoneNumber = pn}
+
 
 
 -- VIEW
@@ -69,5 +78,7 @@ view model =
         , div [] [ text (String.fromInt model.counter) ]
         , button [ onClick Increment ] [ text "+" ]
         , button [ onClick Reset ] [ text "Reset" ]
-        , button [ onClick PlusTen ] [text "+10"]
+        , button [ onClick PlusTen ] [ text "+10" ]
+        , input [ placeholder "phone number here", value model.phoneNumber, onInput NewNumber] []
+        , div [] [ text (String.reverse model.phoneNumber) ]
         ]
