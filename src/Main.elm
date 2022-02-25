@@ -7,7 +7,7 @@ module Main exposing (..)
 --
 
 import Browser
-import Html exposing (Html, button, div, text, input)
+import Html exposing (Html, button, div, input, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 
@@ -63,8 +63,9 @@ update msg model =
 
         PlusTen ->
             { model | counter = model.counter + 10 }
+
         NewNumber pn ->
-            {model | phoneNumber = pn}
+            { model | phoneNumber = pn }
 
 
 
@@ -79,6 +80,6 @@ view model =
         , button [ onClick Increment ] [ text "+" ]
         , button [ onClick Reset ] [ text "Reset" ]
         , button [ onClick PlusTen ] [ text "+10" ]
-        , input [ placeholder "phone number here", value model.phoneNumber, onInput NewNumber] []
-        , div [] [ text (String.reverse model.phoneNumber) ]
+        , input [ placeholder "phone number here", value model.phoneNumber, onInput NewNumber ] []
+        , div [] [ text (String.filter Char.isDigit model.phoneNumber) ]
         ]
