@@ -35,7 +35,15 @@ view model =
     div [ class "content" ]
         [ h1 [] [ text "Photo Groove" ]
         , div [ id "thumbnails" ]
-            (List.map viewThumbnail model.photos)
+            (List.map (viewThumbnail model.selectedUrl)
+                model.photos
+            )
+        , img
+            [ class "large"
+            , src
+                (urlPrefix ++ "large/" ++ model.selectedUrl)
+            ]
+            []
         ]
 
 
@@ -43,5 +51,9 @@ urlPrefix =
     "http://elm-in-action.com/"
 
 
-viewThumbnail thumb =
-    img [ src (urlPrefix ++ thumb.url) ] []
+viewThumbnail selectedUrl thumb =
+    img
+        [ src (urlPrefix ++ thumb.url)
+        , classList [ ( "selected", selectedUrl == thumb.url ) ]
+        ]
+        []
