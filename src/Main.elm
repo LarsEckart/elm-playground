@@ -8,11 +8,16 @@ view model =
     div [ class "content" ]
         [ h1 [] [ text "Photo Groove" ]
         , div [ id "thumbnails" ]
-            [ img [ src "http://elm-in-action.com/1.jpeg" ] []
-            , img [ src "http://elm-in-action.com/2.jpeg" ] []
-            , img [ src "http://elm-in-action.com/3.jpeg" ] []
-            ]
+            (List.map viewThumbnail [ "1.jpeg", "2.jpeg", "3.jpeg" ])
         ]
+
+
+urlPrefix =
+    "http://elm-in-action.com/"
+
+
+viewThumbnail thumb =
+    img [ src (urlPrefix ++ thumb) ] []
 
 
 main =
