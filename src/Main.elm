@@ -18,7 +18,19 @@ main =
 -- MODEL
 
 
-initialModel : { photos : List { url : String }, selectedUrl : String }
+type alias Photo =
+    { url : String }
+
+
+type alias Model =
+    { photos : List Photo, selectedUrl : String }
+
+
+type alias Msg =
+    { description : String, data : String }
+
+
+initialModel : Model
 initialModel =
     { photos =
         [ { url = "1.jpeg" }
@@ -45,6 +57,7 @@ update msg model =
 -- VIEW
 
 
+view : Model -> Html Msg
 view model =
     div [ class "content" ]
         [ h1 [] [ text "Photo Groove" ]
@@ -64,12 +77,12 @@ urlPrefix =
     "http://elm-in-action.com/"
 
 
-viewThumbnail : String -> { a | url : String } -> Html { description : String, data : String }
-viewThumbnail selectedUrl thumb =
+viewThumbnail : String -> Photo -> Html Msg
+viewThumbnail selectedUrl photo =
     img
-        [ src (urlPrefix ++ thumb.url)
+        [ src (urlPrefix ++ photo.url)
         , classList
-            [ ( "selected", selectedUrl == thumb.url ) ]
-        , onClick { description = "ClickedPhoto", data = thumb.url }
+            [ ( "selected", selectedUrl == photo.url ) ]
+        , onClick { description = "ClickedPhoto", data = photo.url }
         ]
         []
