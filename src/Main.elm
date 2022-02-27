@@ -45,6 +45,7 @@ initialModel =
 -- UPDATE
 
 
+update : Msg -> Model -> Model
 update msg model =
     if msg.description == "ClickedPhoto" then
         { model | selectedUrl = msg.data }
