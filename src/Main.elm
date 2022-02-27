@@ -18,6 +18,7 @@ main =
 -- MODEL
 
 
+initialModel : { photos : List { url : String }, selectedUrl : String }
 initialModel =
     { photos =
         [ { url = "1.jpeg" }
@@ -58,10 +59,12 @@ view model =
         ]
 
 
+urlPrefix : String
 urlPrefix =
     "http://elm-in-action.com/"
 
 
+viewThumbnail : String -> { a | url : String } -> Html { description : String, data : String }
 viewThumbnail selectedUrl thumb =
     img
         [ src (urlPrefix ++ thumb.url)
