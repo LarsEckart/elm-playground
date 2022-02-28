@@ -18,16 +18,27 @@ main =
 -- MODEL
 
 
+type ThumbnailSize
+    = Small
+    | Medium
+    | Large
+
+
 type alias Photo =
     { url : String }
 
 
 type alias Model =
-    { photos : List Photo, selectedUrl : String }
+    { photos : List Photo
+    , selectedUrl : String
+    , chosenSize : ThumbnailSize
+    }
 
 
-type alias Msg =
-    { description : String, data : String }
+type Msg
+    = ClickedPhoto String
+    | ClickedSize ThumbnailSize
+    | ClickedSurpriseMe
 
 
 initialModel : Model
@@ -38,6 +49,7 @@ initialModel =
         , { url = "3.jpeg" }
         ]
     , selectedUrl = "1.jpeg"
+    , chosenSize = Medium
     }
 
 
@@ -47,22 +59,35 @@ initialModel =
 
 update : Msg -> Model -> Model
 update msg model =
-    if msg.description == "ClickedPhoto" then
-        { model | selectedUrl = msg.data }
+    case msg of
+        ClickedPhoto url ->
+            { model | selectedUrl = url }
 
-    else
-        model
+        ClickedSurpriseMe ->
+            { model | selectedUrl = "2.jpeg" }
+
+        ClickedSize size ->
+            { model | chosenSize = size }
 
 
 
 -- VIEW
+-- todo: select radio button on page load so that its known which size is chosen by default
+-- todo: not only handle onClick for radio button but also radio state change
 
 
 view : Model -> Html Msg
 view model =
     div [ class "content" ]
         [ h1 [] [ text "Photo Groove" ]
-        , div [ id "thumbnails" ]
+        , button
+            [ onClick ClickedSurpriseMe ]
+            [ text "Surprise Me!" ]
+        , h3 [] [ text "Thumbnail Size:" ]
+        , div [ id "choose-size" ]
+            (List.map viewSizeChooser [ Small, Medium, Large ])
+        , div
+            [ id "thumbnails", class (sizeToString model.chosenSize) ]
             (List.map (viewThumbnail model.selectedUrl) model.photos)
         , img
             [ class "large"
@@ -84,6 +109,28 @@ viewThumbnail selectedUrl photo =
         [ src (urlPrefix ++ photo.url)
         , classList
             [ ( "selected", selectedUrl == photo.url ) ]
-        , onClick { description = "ClickedPhoto", data = photo.url }
+        , onClick (ClickedPhoto photo.url)
         ]
         []
+
+
+viewSizeChooser : ThumbnailSize -> Html Msg
+viewSizeChooser size =
+    label []
+        [ input [ type_ "radio", name "size", onClick (ClickedSize size) ] []
+        , text
+            (sizeToString size)
+        ]
+
+
+sizeToString : ThumbnailSize -> String
+sizeToString size =
+    case size of
+        Small ->
+            "small"
+
+        Medium ->
+            "medium"
+
+        Large ->
+            "large"
