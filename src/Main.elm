@@ -49,7 +49,7 @@ initialModel =
         , { url = "3.jpeg" }
         ]
     , selectedUrl = "1.jpeg"
-    , chosenSize = Medium
+    , chosenSize = Large
     }
 
 
@@ -72,7 +72,6 @@ update msg model =
 
 
 -- VIEW
--- todo: select radio button on page load so that its known which size is chosen by default
 -- todo: not only handle onClick for radio button but also radio state change
 
 
@@ -85,7 +84,7 @@ view model =
             [ text "Surprise Me!" ]
         , h3 [] [ text "Thumbnail Size:" ]
         , div [ id "choose-size" ]
-            (List.map viewSizeChooser [ Small, Medium, Large ])
+            (List.map (viewSizeChooser model.chosenSize) [ Small, Medium, Large ])
         , div
             [ id "thumbnails", class (sizeToString model.chosenSize) ]
             (List.map (viewThumbnail model.selectedUrl) model.photos)
@@ -114,10 +113,16 @@ viewThumbnail selectedUrl photo =
         []
 
 
-viewSizeChooser : ThumbnailSize -> Html Msg
-viewSizeChooser size =
+viewSizeChooser : ThumbnailSize -> ThumbnailSize -> Html Msg
+viewSizeChooser selectedSize size =
     label []
-        [ input [ type_ "radio", name "size", onClick (ClickedSize size) ] []
+        [ input
+            [ type_ "radio"
+            , name "size"
+            , onClick (ClickedSize size)
+            , checked (size == selectedSize)
+            ]
+            []
         , text
             (sizeToString size)
         ]
