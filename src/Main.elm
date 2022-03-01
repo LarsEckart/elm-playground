@@ -1,17 +1,25 @@
 module Main exposing (..)
 
+import Array exposing (Array)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import Random exposing (..)
 
 
 
 -- MAIN
 
 
+main : Program () Model Msg
 main =
-    Browser.sandbox { init = initialModel, view = view, update = update }
+    Browser.element
+        { init = \flags -> ( initialModel, Cmd.none )
+        , view = view
+        , update = update
+        , subscriptions = \model -> Sub.none
+        }
 
 
 
@@ -38,6 +46,7 @@ type alias Model =
 type Msg
     = ClickedPhoto String
     | ClickedSize ThumbnailSize
+    | GotSelectedIndex Int
     | ClickedSurpriseMe
 
 
@@ -53,21 +62,39 @@ initialModel =
     }
 
 
+photoArray : Array { url : String }
+photoArray =
+    Array.fromList initialModel.photos
+
+
 
 -- UPDATE
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ClickedPhoto url ->
-            { model | selectedUrl = url }
+            ( { model | selectedUrl = url }, Cmd.none )
 
         ClickedSurpriseMe ->
-            { model | selectedUrl = "2.jpeg" }
+            ( model, Random.generate GotSelectedIndex randomPhotoPicker )
 
         ClickedSize size ->
-            { model | chosenSize = size }
+            ( { model | chosenSize = size }, Cmd.none )
+
+        GotSelectedIndex index ->
+            ( { model | selectedUrl = getPhotoUrl index }, Cmd.none )
+
+
+getPhotoUrl : Int -> String
+getPhotoUrl index =
+    case Array.get index photoArray of
+        Just photo ->
+            photo.url
+
+        Nothing ->
+            ""
 
 
 
@@ -139,3 +166,8 @@ sizeToString size =
 
         Large ->
             "large"
+
+
+randomPhotoPicker : Random.Generator Int
+randomPhotoPicker =
+    Random.int 0 (Array.length photoArray - 1)
