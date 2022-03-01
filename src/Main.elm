@@ -126,7 +126,7 @@ view model =
 
 urlPrefix : String
 urlPrefix =
-    "http://elm-in-action.com/"
+    "https://elm-in-action.com/"
 
 
 viewThumbnail : String -> Photo -> Html Msg
