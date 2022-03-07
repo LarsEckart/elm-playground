@@ -35,18 +35,14 @@ rateActivity activity =
         Chill ->
             No
 
-        Movie genre ->
-            case genre of
-                Romance ->
-                    Yes
+        Movie Romance ->
+            Yes
 
-                _ ->
-                    No
+        Movie _ ->
+            No
 
-        Restaurant cuisine ->
-            case cuisine of
-                Korean ->
-                    Yes
+        Restaurant Korean ->
+            Yes
 
-                Turkish ->
-                    Maybe
+        Restaurant Turkish ->
+            Maybe
