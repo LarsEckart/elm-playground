@@ -21,24 +21,24 @@ type alias Place =
     ( String, ( Char, Int ) )
 
 
-placeLocationToTreasureLocation : ( Char, Int ) -> ( Int, Char )
+placeLocationToTreasureLocation : PlaceLocation -> TreasureLocation
 placeLocationToTreasureLocation placeLocation =
     ( Tuple.second placeLocation
     , Tuple.first placeLocation
     )
 
 
-treasureLocationMatchesPlaceLocation : ( Char, Int ) -> ( Int, Char ) -> Bool
+treasureLocationMatchesPlaceLocation : PlaceLocation -> TreasureLocation -> Bool
 treasureLocationMatchesPlaceLocation placeLocation treasureLocation =
     placeLocationToTreasureLocation placeLocation == treasureLocation
 
 
-countPlaceTreasures : ( String, ( Char, Int ) ) -> List ( String, ( Int, Char ) ) -> Int
+countPlaceTreasures : Place -> List Treasure -> Int
 countPlaceTreasures place treasures =
     List.length treasures
 
 
-specialCaseSwapPossible : ( String, TreasureLocation ) -> ( String, PlaceLocation ) -> ( String, TreasureLocation ) -> Bool
+specialCaseSwapPossible : Treasure -> Place -> Treasure -> Bool
 specialCaseSwapPossible ( foundTreasure, _ ) ( place, _ ) ( desiredTreasure, _ ) =
     case ( foundTreasure, place, desiredTreasure ) of
         ( "Brass Spyglass", "Abandoned Lighthouse", _ ) ->
