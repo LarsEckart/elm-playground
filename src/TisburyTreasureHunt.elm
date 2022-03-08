@@ -4,7 +4,21 @@ module TisburyTreasureHunt exposing (..)
 -- Treasure, PlaceLocation and Place,
 -- and using them in the function type annotations
 
-type alias TreasureLocation
+
+type alias TreasureLocation =
+    ( Int, Char )
+
+
+type alias Treasure =
+    ( String, TreasureLocation )
+
+
+type alias PlaceLocation =
+    ( Char, Int )
+
+
+type alias Place =
+    ( String, ( Char, Int ) )
 
 
 placeLocationToTreasureLocation : ( Char, Int ) -> ( Int, Char )
@@ -26,4 +40,21 @@ countPlaceTreasures place treasures =
 
 specialCaseSwapPossible : ( String, TreasureLocation ) -> ( String, PlaceLocation ) -> ( String, TreasureLocation ) -> Bool
 specialCaseSwapPossible ( foundTreasure, _ ) ( place, _ ) ( desiredTreasure, _ ) =
-    Debug.todo "implement this function"
+    case ( foundTreasure, place, desiredTreasure ) of
+        ( "Brass Spyglass", "Abandoned Lighthouse", _ ) ->
+            True
+
+        ( "Amethyst Octopus", "Stormy Breakwater", "Crystal Crab" ) ->
+            True
+
+        ( "Amethyst Octopus", "Stormy Breakwater", "Glass Starfish" ) ->
+            True
+
+        ( "Vintage Pirate Hat", "Harbor Managers Office", "Model Ship in Large Bottle" ) ->
+            True
+
+        ( "Vintage Pirate Hat", "Harbor Managers Office", "Antique Glass Fishnet Float" ) ->
+            True
+
+        _ ->
+            False
