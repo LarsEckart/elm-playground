@@ -38,5 +38,13 @@ assignedToDevTeam (Ticket ticket) =
 
 
 assignTicketTo : User -> Ticket -> Ticket
-assignTicketTo u t =
-    t
+assignTicketTo u (Ticket t) =
+    case t.status of
+        New ->
+            Ticket { t | assignedTo = Just u, status = InProgress }
+
+        Archived ->
+            Ticket t
+
+        _ ->
+            Ticket { t | assignedTo = Just u }
