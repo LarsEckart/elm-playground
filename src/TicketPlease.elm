@@ -24,8 +24,17 @@ assignedToDevTeam (Ticket ticket) =
         Nothing ->
             False
 
-        Just user ->
+        Just (User "Alice") ->
             True
+
+        Just (User "Bob") ->
+            True
+
+        Just (User "Charlie") ->
+            True
+
+        Just name ->
+            False
 
 
 assignTicketTo : User -> Ticket -> Ticket
