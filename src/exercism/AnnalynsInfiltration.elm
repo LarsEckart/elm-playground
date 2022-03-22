@@ -3,7 +3,7 @@ module AnnalynsInfiltration exposing (canFastAttack, canFreePrisoner, canSignalP
 
 canFastAttack : Bool -> Bool
 canFastAttack knightIsAwake =
-    knightIsAwake == False
+    not knightIsAwake
 
 
 canSpy : Bool -> Bool -> Bool -> Bool
