@@ -43,14 +43,10 @@ type alias Photo =
 
 photoDecoder : Decoder Photo
 photoDecoder =
-    succeed buildPhoto
+    succeed Photo
         |> required "url" string
         |> required "size" int
         |> optional "title" string "(untitled)"
-
-
-buildPhoto url size title =
-    { url = url, size = size, title = title }
 
 
 type alias Model =
