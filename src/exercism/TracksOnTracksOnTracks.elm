@@ -13,7 +13,7 @@ existingList =
 
 addLanguage : String -> List String -> List String
 addLanguage language languages =
-    [ language ] ++ languages
+    language :: languages
 
 
 countLanguages : List String -> Int
