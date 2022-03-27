@@ -2,12 +2,12 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing (checked, class, classList, id, name, src, title, type_)
 import Html.Events exposing (onClick)
 import Http
 import Json.Decode exposing (Decoder, int, list, string, succeed)
 import Json.Decode.Pipeline exposing (optional, required)
-import Random exposing (..)
+import Random exposing (uniform)
 
 
 
@@ -60,7 +60,7 @@ type Msg
     | ClickedSize ThumbnailSize
     | GotRandomPhoto Photo
     | ClickedSurpriseMe
-    | GotPhotos (Result Http.Error String)
+    | GotPhotos (Result Http.Error (List Photo))
 
 
 type Status
@@ -78,7 +78,7 @@ initialModel =
 
 initialCmd : Cmd Msg
 initialCmd =
-    Http.get { url = "https://elm-in-action.com/photos/list", expect = Http.expectString GotPhotos }
+    Http.get { url = "https://elm-in-action.com/photos/list.json", expect = Http.expectJson GotPhotos (list photoDecoder) }
 
 
 
@@ -113,14 +113,10 @@ update msg model =
         GotRandomPhoto photo ->
             ( { model | status = selectUrl photo.url model.status }, Cmd.none )
 
-        GotPhotos (Ok responseStr) ->
-            case String.split "," responseStr of
-                (firstUrl :: _) as urls ->
-                    let
-                        photos =
-                            List.map Photo urls
-                    in
-                    ( { model | status = Loaded photos firstUrl }, Cmd.none )
+        GotPhotos (Ok photos) ->
+            case photos of
+                first :: rest ->
+                    ( { model | status = Loaded photos first.url }, Cmd.none )
 
                 [] ->
                     ( { model | status = Errored "0 photos found" }, Cmd.none )
@@ -189,6 +185,7 @@ viewThumbnail : String -> Photo -> Html Msg
 viewThumbnail selectedUrl photo =
     img
         [ src (urlPrefix ++ photo.url)
+        , title (photo.title ++ " [" ++ String.fromInt photo.size ++ " KB")
         , classList
             [ ( "selected", selectedUrl == photo.url ) ]
         , onClick (ClickedPhoto photo.url)
