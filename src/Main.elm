@@ -1,24 +1,23 @@
 module Main exposing (main)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (Html, button, div, h1, text)
+import Html.Events exposing (onClick)
 
 
-view model =
-    div [ class "jumbotron" ]
-        [ h1 [] [ text "Welcome to Dunder Mifflin!" ]
-        , p []
-            [ text "Dunder Mifflin Inc. (stock symbol "
-            , strong [] [ text "DMI" ]
-            , text <|
-                """
-                ) is a micro-cap regional paper and office
-                supply distributor with an emphasis on servicing
-                small-business clients.
-                """
-            ]
+type Msg
+    = CreateGame
+    | JoinGame
+
+
+view : Html Msg
+view =
+    div []
+        [ h1 [] [ text "Welcome to Skyjo!" ]
+        , button [ onClick CreateGame ] [ text "Create Game" ]
+        , button [ onClick JoinGame ] [ text "Join Game" ]
         ]
 
 
+main : Html Msg
 main =
-    view "dummy model"
+    view
