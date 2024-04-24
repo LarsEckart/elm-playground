@@ -1,4 +1,4 @@
-module HomePage exposing (main)
+module Main exposing (main)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -11,9 +11,9 @@ view model =
             [ text "Dunder Mifflin Inc. (stock symbol "
             , strong [] [ text "DMI" ]
             , text <|
-                """ 
-                ) is a micro-cap regional paper and office 
-                supply distributor with an emphasis on servicing 
+                """
+                ) is a micro-cap regional paper and office
+                supply distributor with an emphasis on servicing
                 small-business clients.
                 """
             ]

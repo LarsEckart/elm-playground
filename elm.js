@@ -4434,7 +4434,7 @@ var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$strong = _VirtualDom_node('strong');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$HomePage$view = function (model) {
+var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -4463,9 +4463,9 @@ var $author$project$HomePage$view = function (model) {
 							[
 								$elm$html$Html$text('DMI')
 							])),
-						$elm$html$Html$text(' \n                ) is a micro-cap regional paper and office \n                supply distributor with an emphasis on servicing \n                small-business clients.\n                ')
+						$elm$html$Html$text('\n                ) is a micro-cap regional paper and office\n                supply distributor with an emphasis on servicing\n                small-business clients.\n                ')
 					]))
 			]));
 };
-var $author$project$HomePage$main = $author$project$HomePage$view('dummy model');
-_Platform_export({'HomePage':{'init':_VirtualDom_init($author$project$HomePage$main)(0)(0)}});}(this));
+var $author$project$Main$main = $author$project$Main$view('dummy model');
+_Platform_export({'Main':{'init':_VirtualDom_init($author$project$Main$main)(0)(0)}});}(this));
