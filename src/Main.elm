@@ -5,37 +5,37 @@ import Html exposing (Html, button, div, h1, text)
 import Html.Events exposing (onClick)
 
 
-type AppState
+type Page
     = LandingPage
     | CreateGamePage
 
 
-type Msg
-    = CreateGame
+type Command
+    = CreateNewGame
     | CreateGameCommand
 
 
 type alias Model =
-    { currentState : AppState }
+    { currentPage : Page }
 
 
-update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        CreateGame ->
-            { model | currentState = CreateGamePage }
+update : Command -> Model -> Model
+update command model =
+    case command of
+        CreateNewGame ->
+            { model | currentPage = CreateGamePage }
 
         CreateGameCommand ->
-            { model | currentState = LandingPage }
+            { model | currentPage = LandingPage }
 
 
-view : Model -> Html Msg
+view : Model -> Html Command
 view model =
-    case model.currentState of
+    case model.currentPage of
         LandingPage ->
             div []
                 [ h1 [] [ text "Welcome to Skyjo!" ]
-                , button [ onClick CreateGame ] [ text "Create Game" ]
+                , button [ onClick CreateNewGame ] [ text "Create Game" ]
                 ]
 
         CreateGamePage ->
@@ -49,14 +49,14 @@ view model =
 
 init : Model
 init =
-    { currentState = LandingPage }
+    { currentPage = LandingPage }
 
 
 
 -- Subscriptions, not used in this example but necessary for a complete Elm program
 
 
-subscriptions : Model -> Sub Msg
+subscriptions : Model -> Sub Command
 subscriptions _ =
     Sub.none
 
@@ -65,6 +65,6 @@ subscriptions _ =
 -- Main function definition using Browser.sandbox for simplicity
 
 
-main : Program () Model Msg
+main : Program () Model Command
 main =
     Browser.sandbox { init = init, update = update, view = view }
